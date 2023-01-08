@@ -207,5 +207,10 @@ namespace Rocky.Controllers
 
         }
 
+        public Product GetProductByPrice(double price)
+        {
+            return _db.Product.FirstOrDefault(u => u.Price == price); ;
+        }
+
     }
 }

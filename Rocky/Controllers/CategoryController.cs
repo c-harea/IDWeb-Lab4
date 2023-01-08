@@ -112,5 +112,15 @@ namespace Rocky.Controllers
 
         }
 
+        public Category GetCategoryById(int id)
+        {
+            return _db.Category.FirstOrDefault(u => u.Id == id); 
+        }
+
+        public Category GetCategoryByName(string name)
+        {
+            return _db.Category.FirstOrDefault(u => u.Name.Equals(name));
+        }
+
     }
 }

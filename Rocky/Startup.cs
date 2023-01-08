@@ -20,6 +20,19 @@ namespace Rocky
             Configuration = configuration;
         }
 
+        public static class DatabaseManagementService
+        {
+            // Getting the scope of our database context
+            public static void MigrationInitialisation(IApplicationBuilder app)
+            {
+                using (var serviceScope = app.ApplicationServices.CreateScope())
+                {
+                    // Takes all of our migrations files and apply them against the database in case they are not implemented
+                    serviceScope.ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+                }
+            }
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -27,7 +40,7 @@ namespace Rocky
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+                Configuration.GetConnectionString("Deploy")));
 
             services.AddControllersWithViews();
         }
@@ -45,6 +58,9 @@ namespace Rocky
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            DatabaseManagementService.MigrationInitialisation(app);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

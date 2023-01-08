@@ -1,0 +1,22 @@
+version: "3.3"  # optional since v1.27.0
+services:
+  app-image:
+    image: rocky-image
+    container_name: rocky-container
+    ports:
+      - "5000:80"
+  sql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: WIN-S12PPN71OHI\\CRISTIAN
+    ports: # not actually needed, because the two services are on the same network
+      - "1433:1433" 
+    environment:
+      - ACCEPT_EULA=y
+      - SA_PASSWORD=Cristian123
+
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: "dbeaver"
+    restart: always
+    ports:
+      - '8000:8978'

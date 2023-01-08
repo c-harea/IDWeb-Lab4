@@ -114,5 +114,10 @@ namespace Rocky.Controllers
 
         }
 
+        public ApplicationType GetApplicationByName(string name)
+        {
+            return _db.ApplicationType.FirstOrDefault(u => u.Name.Equals(name));
+        }
+
     }
 }
